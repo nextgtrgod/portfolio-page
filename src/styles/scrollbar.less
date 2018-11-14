@@ -1,0 +1,48 @@
+
+html.any-chrome {
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        cursor: pointer;
+    
+        @media (min-width: 1600px) {
+            width: 15px;
+        }
+    }
+    
+    
+    ::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+    }
+    
+    
+    ::-webkit-scrollbar-thumb {
+        background: #F0DB4F;
+        border: none;
+        border-radius: 0;
+    
+        &:hover
+        &:active {
+            background: #508CBE
+        }
+    }
+    
+    
+    ::-webkit-scrollbar-track {
+        background: @color-dark;
+        border: none;
+        border-radius: 0px;
+    
+        &:hover
+        &:active {
+            background: #111;
+        }
+    }
+    
+    ::-webkit-scrollbar-corner {
+        background: transparent
+    }
+
+}
