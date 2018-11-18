@@ -21,3 +21,8 @@
 - [x] contacts
 - [x] scroll to button
 - [x] mobile-friendly (less animations)
+- [ ] darkmode (press d)
+- [ ] remove unused fonts
+- [ ] tilt
+- [ ] paper.js
+- [ ] content edit

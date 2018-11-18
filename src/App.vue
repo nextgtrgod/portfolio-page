@@ -1,19 +1,29 @@
 <template>
 <div id="app">
 	<div class="scroll-snap"/>
-	<div class="scroll-snap"/>
+	<div class="scroll-snap" id="scroll-anchor"/>
 	<div class="scroll-snap"/>
 
-	<bulbs/>
+	<bulbs :invert="invert"/>
 
 	<main>
-		<about :visible="section === 'about'"/>	
+		<about :visible="section === 'about'" :invert="invert"/>	
 		<skills :visible="section === 'skills'"/>
 		<projects :visible="section === 'projects'"/>
 
 		<span class="pos">{{ pos }}</span>
 
 	</main>
+
+	<button id="scroll-to" :class="{ visible: section === 'about', invert }" @click="scrollNext">
+		<span/>
+		<span/>
+		<span/>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7.4">
+			<path fill="#111" d="M1.4 0L6 4.6 10.6 0 12 1.4l-6 6-6-6L1.4 0z"/>
+			<path fill="none" d="M-6-8.6h24v24H-6v-24z"/>
+		</svg>
+	</button>
 </div>
 </template>
 
@@ -44,6 +54,7 @@ export default {
 			rafId: null,
 			pos: 0,
 			browser: '',
+			invert: false,
 		}
 	},
 	created() {
@@ -51,6 +62,11 @@ export default {
 		document.getElementsByTagName('html')[0].classList.add(this.browser)
 
 		window.addEventListener('resize', () => this.height = window.innerHeight)
+
+		// temp darkmode
+		document.addEventListener('keypress', ({ keyCode }) => {
+			(keyCode === 100) && (this.invert = !this.invert)
+		})
 	},
 	mounted() {
 		this.rafId = this.handleScroll()
@@ -70,6 +86,10 @@ export default {
 
 			return requestAnimationFrame(this.handleScroll)
 		},
+
+		scrollNext() {
+			this.$el.scrollTop = window.innerHeight
+		},
 	},
 	beforeDestroy() {
 		cancelAnimationFrame(this.rafId)
@@ -80,7 +100,12 @@ export default {
 
 			// disableScroll()
 			// setTimeout(enableScroll, 100)
-		}
+		},
+
+		invert(invert) {
+			if (invert) document.body.classList.add('invert')
+			else document.body.classList.remove('invert')
+		},
 	},
 }
 </script>
@@ -102,13 +127,19 @@ html, body {
 
 body {
 	overflow: hidden;
+	transition: background 400ms;
+
+	&.invert {
+		background-color: #0d0d0d !important;
+		// background-color: #111 !important;
+	}
 }
 
 
 #app {
 	position: relative;
 	scroll-snap-type: y mandatory;
-	overflow-y: scroll;
+	overflow-y: auto;
 	max-height: 100vh;
 	opacity: 0;
 	animation: fade-in .4s forwards;
@@ -132,10 +163,76 @@ main {
 
 .pos {
 	position: absolute;
-	top: 120px;
+	bottom: 5px;
 	right: 20px;
 	font-size: 42px;
 	font-weight: 700;
+}
+
+
+#scroll-to {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	left: 50%;
+	bottom: 30px;
+	padding: 10px 20px;
+	transform: translateX(-50%);
+	opacity: 0;
+	pointer-events: none;
+	transition: all 200ms;
+	animation: bounce 2s infinite ease-in-out;
+
+	&.visible {
+		opacity: 1;
+		pointer-events: all;
+	}
+
+	&.invert {
+		span {
+			background-color: #FFF;
+		}
+
+		svg path:first-child {
+			fill: #FFF;
+		}
+	}
+
+	span {
+		width: 2px;
+		height: 6px;
+		background-color: @color-dark;
+		margin-top: 4px;
+		transition: background 400ms;
+	}
+
+	svg {
+		margin-top: 2px;
+		width: 14px;
+
+		path {
+			transition: fill 400ms;
+		}
+	}
+
+	// &:after {
+	// 	content: '';
+	// 	position: absolute;
+	// 	left: 0;
+	// 	right: 0;
+	// 	bottom: -2.6em;
+	// 	margin: auto;
+	// 	width: 4em;
+	// 	height: 4em;
+	// 	background-image: url('./assets/images/chevron.svg');
+	// 	opacity: .8;
+	// 	background-position: center;
+	// 	background-size: cover;
+	// 	background-repeat: no-repeat;
+	// 	animation: bounce 2s infinite;
+	// }
 }
 
 </style>

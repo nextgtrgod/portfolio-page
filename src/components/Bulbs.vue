@@ -1,6 +1,6 @@
 <template lang="pug">
-#bulbs
-	svg(xmlns='http://www.w3.org/2000/svg', viewbox='0 0 145 388' id='bulb-3')
+#bulbs(:class="{ invert }")
+	svg(id="bulb-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 145 388")
 		defs
 			filter#glow
 				feDropShadow(dx='0' dy='-2' stdDeviation='2' flood-color='#0F24B0')
@@ -128,14 +128,18 @@
 		path(d='M90.78,170a3.47,3.47,0,0,0,1.47.92c0.11,0,.32-0.07.23-0.21-3.56-6.18-11.15-9.32-16.67-13.41-0.1-.07-0.3.08-0.19,0.17a103.28,103.28,0,0,0,8.6,6,43.17,43.17,0,0,1,5,3.85A19.21,19.21,0,0,1,91,169.21a6.53,6.53,0,0,1,.53.69q0.67,0.71.07,0.32A3.26,3.26,0,0,1,91,169.8c-0.13-.09-0.32.09-0.17,0.2h0v0Z')
 
 
-
-
 </template>
 
 
 <script>
 export default {
 	name: 'Bulbs',
+	props: {
+		invert: {
+			type: Boolean,
+			default: false,
+		},
+	},
 }
 </script>
 
@@ -149,6 +153,12 @@ export default {
 	left: 0;
 	right: 0;
 	bottom: 0;
+
+	// temp delete this
+	transition: filter 400ms;
+	&.invert {
+		filter: invert(100%);
+	}
 }
 
 svg {
@@ -161,22 +171,27 @@ svg {
 }
 
 svg#bulb {
+	&-1 {
+		right: 7%;
+		height: 65%;
+		animation-delay: .3s;
+	}
+
 	&-3 {
-		// top: -20%;
+		top: -20%;
 		left: 8%;
-		// height 95%
 		height: 110%;
-		// will-change: top, left;
+		will-change: top, left;
 
 		#trigger-invert {
 			fill: transparent;
 		}
 
 		g {
-			// transition: all 300ms;
+			transition: all 300ms;
 
 			path {
-				// transition: all 300ms;
+				transition: all 300ms;
 			}
 		}
 	}

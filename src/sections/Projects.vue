@@ -1,6 +1,5 @@
 <template>
 <section id="projects" :class="{ visible }">
-    <span class="offset">0</span>
     <h3>projects</h3>
 </section>
 </template>
