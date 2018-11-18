@@ -1,8 +1,8 @@
 # portfolio-page
 ### Frontend-developer portfolio page
 
-* [Express.js](http://expressjs.com/)
-* [Pug](https://pugjs.org/)
+* [Vue.js](https://vuejs.org/)
+* [Paper.js](http://paperjs.org/)
 * [vanilla-tilt.js](https://github.com/micku7zu/vanilla-tilt.js/)
 
 

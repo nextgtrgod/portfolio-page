@@ -11,10 +11,10 @@ let checkBrowser = () => {
 
 	if (typeof window.orientation !== 'undefined') root.classList.add('mobile-device')
 
-	if (msie > 0 || trident > 0 || edge > 0) return root.classList.add('any-ie')
-	else if (moz > 0) return root.classList.add('any-firefox')
-	else if (chr > 0) return root.classList.add('any-chrome')
-    else if (saf > 0) return root.classList.add('any-safari')
+	if (msie > 0 || trident > 0 || edge > 0) return 'ie'
+	else if (moz > 0) return 'firefox'
+	else if (chr > 0) return 'chrome'
+    else if (saf > 0) return 'safari'
 }
 
 export default checkBrowser
