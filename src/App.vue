@@ -1,17 +1,17 @@
 <template>
-<div id="app">
+<div id="app" :class="{ loaded }">
 	<div class="scroll-snap"/>
 	<div class="scroll-snap" id="scroll-anchor"/>
 	<div class="scroll-snap"/>
 
-	<bulbs :invert="invert"/>
+	<bulbs :section="section" :invert="invert"/>
 
 	<main>
 		<about :visible="section === 'about'" :invert="invert"/>	
 		<skills :visible="section === 'skills'"/>
 		<projects :visible="section === 'projects'"/>
 
-		<span class="pos">{{ pos }}</span>
+		<!-- <span class="pos">{{ pos }}</span> -->
 
 	</main>
 
@@ -48,6 +48,8 @@ export default {
 	},
 	data() {
 		return {
+			loaded: false,
+
 			height: window.innerHeight,
 			section: 'about',
 			count: 3,
@@ -69,16 +71,19 @@ export default {
 		})
 	},
 	mounted() {
+		this.prevPos = this.$el.scrollTop
 		this.rafId = this.handleScroll()
 
-		window.addEventListener('scroll', function() {
-			console.log('dsa')
-		})
+		this.loaded = true
 	},
 	methods: {
 		handleScroll() {
 			let pos = this.$el.scrollTop
-			this.pos = pos
+			// this.pos = pos
+
+			if (pos === this.prevPos) return requestAnimationFrame(this.handleScroll)
+
+			this.prevPos = pos
 
 			if (pos < this.height) this.section = 'about'
 			else if ((pos >= this.height) && (pos < 2 * this.height)) this.section = 'skills'
@@ -96,7 +101,7 @@ export default {
 	},
 	watch: {
 		section(to, from) {
-			console.log(from, to)
+			console.log(from, '->', to)
 
 			// disableScroll()
 			// setTimeout(enableScroll, 100)
@@ -142,7 +147,10 @@ body {
 	overflow-y: auto;
 	max-height: 100vh;
 	opacity: 0;
-	animation: fade-in .4s forwards;
+
+	&.loaded {
+		animation: fade-in 400ms forwards;
+	}
 }
 
 .scroll-snap {
@@ -177,7 +185,7 @@ main {
 	justify-content: center;
 	position: fixed;
 	left: 50%;
-	bottom: 30px;
+	bottom: 20px;
 	padding: 10px 20px;
 	transform: translateX(-50%);
 	opacity: 0;

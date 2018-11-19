@@ -142,8 +142,8 @@ ul.contacts {
 
 .movable {
 	position: absolute;
-	will-change: transform;
-	box-shadow: 0 5px 45px -10px fade(@color-dark, 20%);
+	// will-change: transform;
+	box-shadow: 0 5px 45px -10px fade(@color-dark, 20%); // delete this mb
 	transition: box-shadow 400ms;
 }
 
