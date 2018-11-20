@@ -45,9 +45,15 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		browser: {
+			type: String,
+			default: 'chrome',
+		},
 	},
 	mounted() {
-		this.animation = new Parallax()
+		console.log(this.browser)
+		let easing = this.browser === 'firefox' ? 1 : 0.08
+		this.animation = new Parallax(easing)
 
 		let nodes = [...document.querySelectorAll('.movable')]
 
@@ -142,8 +148,8 @@ ul.contacts {
 
 .movable {
 	position: absolute;
-	// will-change: transform;
-	box-shadow: 0 5px 45px -10px fade(@color-dark, 20%); // delete this mb
+	will-change: transform;
+	// box-shadow: 0 5px 45px -10px fade(@color-dark, 20%); // delete this mb
 	transition: box-shadow 400ms;
 }
 

@@ -7,7 +7,7 @@
 	<bulbs :section="section" :invert="invert"/>
 
 	<main>
-		<about :visible="section === 'about'" :invert="invert"/>	
+		<about :visible="section === 'about'" :invert="invert" :browser="browser"/>	
 		<skills :visible="section === 'skills'"/>
 		<projects :visible="section === 'projects'"/>
 
@@ -78,16 +78,20 @@ export default {
 	},
 	methods: {
 		handleScroll() {
-			let pos = this.$el.scrollTop
 			// this.pos = pos
 
-			if (pos === this.prevPos) return requestAnimationFrame(this.handleScroll)
+			if (this.$el.scrollTop === this.prevPos) return requestAnimationFrame(this.handleScroll)
+
+			let pos = this.$el.scrollTop
 
 			this.prevPos = pos
+			let section
 
-			if (pos < this.height) this.section = 'about'
-			else if ((pos >= this.height) && (pos < 2 * this.height)) this.section = 'skills'
-			else this.section = 'projects'
+			if (pos < this.height) section = 'about'
+			else if ((pos >= this.height) && (pos < 2 * this.height)) section = 'skills'
+			else section = 'projects'
+
+			if (this.section !== section) this.section = section
 
 			return requestAnimationFrame(this.handleScroll)
 		},
